@@ -63,12 +63,10 @@
 \newcommand{\frakc}{\mathfrak{c}}
 \newcommand{\frakb}{\mathfrak{b}}
 \newcommand{\frakd}{\mathfrak{d}}
-\newcommand{\all}{\mathrm{all}}
-\newcommand{\ZFC}{\mathrm{ZFC}}
-\newcommand{\ZF}{\mathrm{ZF}}
-\newcommand{\AD}{\mathrm{AD}}
-\newcommand{\DC}{\mathrm{DC}}
-\newcommand{\proj}{\operatorname{proj}}
+\newcommand{\ZFC}{\mathsf{ZFC}}
+\newcommand{\ZF}{\mathsf{ZF}}
+\newcommand{\AD}{\mathsf{AD}}
+\newcommand{\DC}{\mathsf{DC}}
 \newcommand{\cf}{\operatorname{cf}}
 \newcommand{\fraks}{\mathfrak{s}}
 \newcommand{\frakr}{\mathfrak{r}}
@@ -112,7 +110,6 @@
 \renewcommand{\labelenumi}{(\arabic{enumi})}
 
 \usepackage[backend=biber,style=alphabetic,sorting=nty,doi=false,isbn=false,url=false,eprint=true]{biblatex}
-\addbibresource{sigma11lm.bib}
 \renewbibmacro{in:}{}
 
 \title{nullイデアル上の閉包作用素で値域がBorel集合族に含まれるものの存在の独立性}
@@ -136,9 +133,8 @@
 	\setcounter{enumi}{2}
 		\item $A, B \in \nul$かつ$A \subset B$ならば$F(A) \subset F(B)$
 	\end{enumerate}
-	上の(1)-(3)を満たす$F$が存在すれば便利だと思われるが，存在を証明できるだろうか？
-	答えはNoである．
-	実際には，次が成り立つ．
+	上の(1)-(3)を満たす$F$が存在すれば便利だと思われるが，存在を証明できるだろうか？ 答えはNoである．
+	実際に，次が成り立つ．
 	
 	\begin{thm}\label{thm:mainthm}
 		次の命題は$\ZFC$上独立である：
@@ -155,64 +151,83 @@
 	\begin{prop}\label{prop:ch}
 		$\add(\nul) = \cof(\nul)$ならば定理 \ref{thm:mainthm}の3条件を満たす$F \colon \nul \to \nul$は存在する．特に連続体仮説のもとで定理 \ref{thm:mainthm}の3条件を満たす$F \colon \nul \to \nul$は存在する．
 	\end{prop}
+	\begin{proof}
+		定義を思い出すと，
+		\begin{align*}
+			 \add(\nul) &= \min \{ \abs{\mathcal{F}} : \mathcal{F} \subset \nul, \bigcup \mathcal{F} \not \in \nul \} \\
+			 \cof(\nul) &= \min \{ \abs{\mathcal{F}} : \mathcal{F} \subset \nul, (\forall A \in \nul)(\exists B \in \mathcal{F})(A \subset B) \}
+		\end{align*}
+		だった．$\add(\nul) = \cof(\nul)$のもとで単調増加かつ$\nul$の中で共終なBorel集合の列が存在する．実際，$\cof(\nul)$のwitness $\seq{A_\alpha : \alpha < \cof(\nul)}$をとり，
+		\[
+		B_\alpha \supseteq \bigcup_{\beta < \alpha} B_\beta \cup \bigcup_{\beta \le \alpha} A_\alpha
+		\]
+		なるBorel集合$B_\alpha$を$\alpha < \cof(\nul)$に関する再帰でとれば，これが単調増加かつ$\nul$の中で共終なBorel集合の列である．ここで上記の式の右辺は$\alpha < \cof(\nul) = \add(\nul)$より，測度$0$なことに注意する．
+		
+		ここで$F \colon \nul \to \nul$を
+		\[
+		F(A) = B_\alpha,\ \ \text{ただし$\alpha$は$A \subset B_\alpha$となる最小の$\alpha$}
+		\]
+		と定めればこれが目的のものとなる．
+	\end{proof}
 	
 	\begin{prop}\label{prop:ch}
 		連続体仮説を仮定する．このとき
 		\[
 		\C_{\omega_2} \forces ``\text{定理 \ref{thm:mainthm}の3条件を満たす$F \colon \nul \to \nul$は存在しない}".
 		\]
+		ここで$\C_{\omega_2}$は$\omega_2$個のCohen実数を加える強制法である．
 	\end{prop}
 	\begin{proof}
-		$(V, \C_{\omega_2})$ジェネリックフィルター$G$をとる。
-		$V[G]$で定理 \ref{thm:mainthm}の3条件を満たす$F \colon \nul \to \nul$が存在すると仮定する。
+		$(V, \C_{\omega_2})$ジェネリックフィルター$G$をとる．
+		$V[G]$で定理 \ref{thm:mainthm}の3条件を満たす$F \colon \nul \to \nul$が存在すると仮定する．
 		次の事実を使う：
 		\[
 			\C \forces ``\text{$V \cap \R$は測度$0$である}"
 		\]
-		すると、$V[G]$において、$\seq{V[G_\alpha] \cap \R : \alpha < \omega_2}$は測度$0$集合の列であることがわかる。
-		また、明らかにこれは単調増加な列である。
-		よって、$F$の仮定から、$\seq{F(V[G_\alpha] \cap \R) : \alpha < \omega_2}$は測度$0$なBorel集合の単調増加な列である。
-		しかも、$\bigcup_{\alpha < \omega_2} (V[G_\alpha] \cap \R) = \R$より$\bigcup_{\alpha < \omega_2} F(V[G_\alpha] \cap \R) = \R$なので、このBorel集合の列が途中で停留することはない。そこで部分列をとることにより、真に単調増加なBorel集合の$\omega_2$列が存在することとなる。
+		すると，$V[G]$において，$\seq{V[G_\alpha] \cap \R : \alpha < \omega_2}$は測度$0$集合の列であることがわかる．ここで$G_\alpha$は$G$を最初の$\alpha$個に制限して得られるジェネリックフィルターである．
+		また，明らかに$\seq{V[G_\alpha] \cap \R : \alpha < \omega_2}$は単調増加な列である．
+		よって，$F$の仮定から，$\seq{F(V[G_\alpha] \cap \R) : \alpha < \omega_2}$は測度$0$なBorel集合の単調増加な列である．
+		しかも，$\bigcup_{\alpha < \omega_2} (V[G_\alpha] \cap \R) = \R$より$\bigcup_{\alpha < \omega_2} F(V[G_\alpha] \cap \R) = \R$なので，このBorel集合の列が途中で停留することはない．そこで部分列をとることにより，真に単調増加なBorel集合の$\omega_2$列が存在することとなる．
 		
-		実は、$V[G]$には実際にはこのような列は存在しないことを示すことができる。
+		実は，$V[G]$には実際にはこのような列は存在しないことを示すことができる．
 		
-		\noindent \textbf{主張: } $V$で連続体仮説を仮定したとき、
+		\noindent \textbf{主張: } $V$で連続体仮説を仮定したとき，
 		\[\C_{\omega_2} \forces ``\text{長さ$\omega_2$のBorel集合の真に単調増加な列は存在しない}".\]
 		
-		\noindent \textbf{主張の証明: } Borelコードの良い$\C_{\omega_2}$名前の列$\seq{\dot{c}_\alpha : \alpha < \omega_2}$と条件$p \in \C_{\omega_2}$が与えられて、
+		\noindent \textbf{主張の証明: } Borelコードの良い$\C_{\omega_2}$名前の列$\seq{\dot{c}_\alpha : \alpha < \omega_2}$と条件$p \in \C_{\omega_2}$が与えられて，
 		\[
 		p \forces ``\text{$\seq{\dot{c}_\alpha : \alpha < \omega_2}$は真に単調増加}"
 		\]
-		だと仮定する。
+		だと仮定する．
 		
-		良い名前$\dot{c}_\alpha$が依存する添字の集合を$I_\alpha \subset \omega_2$とする。
-		すなわち、$\dot{c}_\alpha$は長さ$\omega$の$\C_{\omega_2}$の反鎖の列であるから、各反鎖の元のサポートを考え、その和集合を考えたものである。
-		$\C_{\omega_2}$が可算鎖条件を満たすので$\abs{I_\alpha}  = \aleph_0$である。
-		今、連続体仮説を仮定していることから、列$\seq{I_\alpha : \alpha < \omega_2}$にデルタシステム補題を適用できる。すなわち、$A \in [\omega_2]^{\aleph_2}$と$R \in [\omega_2]^{\aleph_0}$が存在して
+		良い名前$\dot{c}_\alpha$が依存する添字の集合を$I_\alpha \subset \omega_2$とする．
+		すなわち，$\dot{c}_\alpha$は長さ$\omega$の$\C_{\omega_2}$の反鎖の列であるから，各反鎖の元のサポートを考え，その和集合を考えたものである．
+		$\C_{\omega_2}$が可算鎖条件を満たすので$\abs{I_\alpha}  = \aleph_0$である．
+		今，連続体仮説を仮定していることから，列$\seq{I_\alpha : \alpha < \omega_2}$にデルタシステム補題を適用できる．すなわち，$A \in [\omega_2]^{\aleph_2}$と$R \in [\omega_2]^{\aleph_0}$が存在して
 		\[
 		(\forall \alpha, \beta \in A)(\alpha \ne \beta \rightarrow I_\alpha \cap I_\beta = R)
 		\]
-		を満たす。また各$I_\alpha \setminus R$ ($\alpha \in A$)は同じ順序型を持つと仮定してよい。
-		そこで$\alpha, \beta \in A$に対して、一意に順序を保つ全単射$\pi_{\alpha,\beta} \colon I_\alpha \to I_\beta$であって、$R$上定数関数なものがある。この添字の置換か定まる$\C_{\omega_2}$上の同型も同じ記号$\pi_{\alpha,\beta}$で表し、またそれから引き起こされる名前から名前への写像も同じ記号で表す。
+		を満たす．また各$I_\alpha \setminus R$ ($\alpha \in A$)は同じ順序型を持つと仮定してよい．
+		そこで$\alpha, \beta \in A$に対して，一意に順序を保つ全単射$\pi_{\alpha,\beta} \colon I_\beta \to I_\alpha$であって，$R$上定数関数なものがある．この添字の置換か定まる$\C_{\omega_2}$上の同型も同じ記号$\pi_{\alpha,\beta}$で表し，またそれから引き起こされる名前から名前への写像も同じ記号で表す．
 		
-		$\alpha_0 \in A$を一つ固定する。
-		このとき$A' \in [A]^{\aleph_2}$があって、すべての$\beta \in A'$で$\pi_{\alpha_0,\beta}(\dot{c}_\beta)$が名前として一定である。実際、$I_{\alpha_0}$にのみ依存する良い名前は連続体仮説より$\aleph_1$個しかないので、鳩の巣原理よりこれがわかる。
+		$\alpha_0 \in A$を一つ固定する．
+		このとき$A' \in [A]^{\aleph_2}$があって，すべての$\beta \in A'$で$\pi_{\alpha_0,\beta}(\dot{c}_\beta)$が名前として一定である．実際，$I_{\alpha_0}$にのみ依存する良い名前は連続体仮説より$\aleph_1$個しかないので，鳩の巣原理よりこれがわかる．
 		
-		そこで$\beta, \gamma$を$A'$から取り、$\beta < \gamma$であり、また、$(I_\beta \setminus R) \cap \dom(p) = \emptyset, (I_\gamma \setminus R) \cap \dom(p) = \emptyset$なようにする。
-		今、最初の仮定より
+		そこで$\beta, \gamma$を$A'$から取り，$\beta < \gamma$であり，また，$(I_\beta \setminus R) \cap \dom(p) = \emptyset, (I_\gamma \setminus R) \cap \dom(p) = \emptyset$なようにする．
+		今，最初の仮定より
 		\[
 		p \forces \hat{\dot{c}}_\beta \subsetneq \hat{\dot{c}}_\gamma
 		\]
-		である (ハット記号はBorelコードの解釈を表す)。
+		である (ハット記号はBorelコードの解釈を表す)．
 		
 		この強制関係を同型$\pi_{\beta,\gamma}$で動かすと
 		\[
 		\pi_{\beta,\gamma}(p) \forces \hat{\dot{c}}_\gamma \subsetneq \hat{\dot{c}}_\beta
 		\]
-		を得る。
-		しかし$p$と$\pi_{\beta,\gamma}(p)$は両立可能であることを考えるとこれは矛盾である。 \hfill //
+		を得る．
+		しかし$p$と$\pi_{\beta,\gamma}(p)$は両立可能であることを考えるとこれは矛盾である． \hfill //
 		
-		この主張によりこの命題も示された。
+		この主張によりこの命題も示された．
 	\end{proof}
 	
 	\nocite{*}
